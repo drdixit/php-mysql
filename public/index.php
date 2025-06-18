@@ -9,10 +9,20 @@
 // const BASE_PATH = __DIR__ . '/../';
 const BASE_PATH = __DIR__ . '/../';
 
-require BASE_PATH . 'functions.php';
-require base_path('Database.php');
-require base_path('Response.php');
-require base_path('router.php');
+require BASE_PATH . 'Core/functions.php';
+
+// when class is not found, this function will be called
+// this thing autoload classes on demand
+// it lets us declare manually how we wanna go about importing classes
+// that has not already been explicitly or manually required/imported
+spl_autoload_register(function ($class) {
+    // dd($class);
+    require(base_path("Core/{$class}.php"));
+});
+
+// require base_path('Database.php');
+// require base_path('Response.php');
+require base_path('Core/router.php');
 
 
 
