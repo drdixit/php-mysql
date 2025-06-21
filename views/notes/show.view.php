@@ -8,6 +8,11 @@
             <a href="/notes" class="text-blue-500 underline hover:text-blue-700">Go back...</a>
          </p>
         <p><?= htmlspecialchars($note['body']) ?></p>
+
+
+        <form class="mt-6" method="POST">
+            <button class="text-sm text-red-500">Delete</button>
+        </form>
     </div>
 </main>
 <?php require(base_path('views/partials/footer.php')); ?>

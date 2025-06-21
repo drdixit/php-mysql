@@ -1,6 +1,6 @@
 <?php
 
-// this is good way to show errors in php just set this values
+// this is a good way to show errors in php just set this values,
 // and you don't need to change php.ini file
 // ini_set('display_errors', 1);
 // ini_set('display_startup_errors', 1);
@@ -13,11 +13,18 @@ require BASE_PATH . 'Core/functions.php';
 
 // when class is not found, this function will be called
 // this thing autoload classes on demand
-// it lets us declare manually how we wanna go about importing classes
+// it lets us declare manually how we want to go about importing classes
 // that has not already been explicitly or manually required/imported
 spl_autoload_register(function ($class) {
     // dd($class);
-    require(base_path("Core/{$class}.php"));
+    // require(base_path("Core/{$class}.php"));
+    // when using namespaces class logic is different because of this
+    // it tries to find Core\Database class
+    // str_replace('\\', '/',$class);
+    // this should work but why don't we make it dynamic using directory separator
+    $class = str_replace('\\', DIRECTORY_SEPARATOR, $class);
+    // dd($class);
+    require(base_path("{$class}.php"));
 });
 
 // require base_path('Database.php');

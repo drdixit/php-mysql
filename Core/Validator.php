@@ -1,5 +1,7 @@
 <?php
 
+namespace Core;
+
 class Validator
 {
     // this method is what we call a pure function

@@ -1,5 +1,9 @@
 <?php
 
+// you can do something like this or use keyword
+// $db = new Core\Database($config['database']);
+use Core\Database;
+
 $config = require(base_path('config.php'));
 $db = new Database($config['database']);
 

@@ -1,7 +1,14 @@
 <?php
 
 $config = require(base_path('config.php'));
+
+use Core\Database;
+
 $db = new Database($config['database']);
+
+if($_SERVER['REQUEST_METHOD'] === 'POST') {
+    echo "Deleting...";
+}
 
 // $heading = 'Note';
 $currentUserId = 5;
