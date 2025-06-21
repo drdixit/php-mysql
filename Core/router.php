@@ -22,7 +22,7 @@ function abort($code = 404)
 {
     http_response_code($code);
     // TODO: check for corresponding view file if it exists or not
-    require "views/{$code}.php";
+    require base_path("views/{$code}.php");
     die();
 }
 
