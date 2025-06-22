@@ -1,9 +1,20 @@
 <?php
 
+use Core\App;
 use Core\Database;
 
-$config = require base_path('config.php');
-$db = new Database($config['database']);
+$db = App::resolve(Database::class);
+// created new static method and above is changed
+// $db = App::container()->resolve(Database::class);
+
+// $config = require base_path('config.php');
+// $db = new Database($config['database']);
+
+// or you can inline it too
+// $db = App::container()->resolve(Core\Database::class);
+
+// $db = App::container()->resolve('Core\Database');
+// dd($db);
 
 $currentUserId = 1;
 
