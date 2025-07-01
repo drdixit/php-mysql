@@ -14,7 +14,7 @@
             <!-- it should make a post request to the sessions again if we are following the RESTful conventions, sessions is a resource so create ~ displays a form to create a new session and if we post to that endpoint that should store a new session but login is is fine too -->
             <!-- at least that is one way to think of it another options is if you just want to keep it simple post a /login -->
             <!-- <form class="mt-8 space-y-6" action="/login" method="POST"> -->
-            <form class="mt-8 space-y-6" action="/sessions" method="POST">
+            <form class="mt-8 space-y-6" action="/session" method="POST">
                 <div class="-space-y-px rounded-md shadow-sm">
                     <div>
                         <label for="email" class="sr-only">Email address</label>

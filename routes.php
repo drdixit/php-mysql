@@ -19,7 +19,7 @@ $router->post('/notes', 'controllers/notes/store.php');
 // $router->get('/register', 'controllers/registration/create.php');
 
 $router->get('/register', 'controllers/registration/create.php')->only('guest');
-$router->post('/register', 'controllers/registration/store.php');
+$router->post('/register', 'controllers/registration/store.php')->only('guest');
 
 // $router->post('/login', 'controllers/sessions/store.php')->only('guest');
 // if you are wondering why i didn't do /sessions/create, you can that would be fine too
@@ -29,5 +29,6 @@ $router->post('/register', 'controllers/registration/store.php');
 // there is no requirements, there is just guidelines that maybe you should follow if you want
 // if you are on a team may be you adapt the same system but otherwise there is very few rules when it comes to this stuff
 // $router->get('/sessions/create', 'controllers/sessions/create.php')->only('guest');
-$router->get('/login', 'controllers/sessions/create.php')->only('guest');
-$router->post('/sessions', 'controllers/sessions/store.php')->only('guest');
+$router->get('/login', 'controllers/session/create.php')->only('guest');
+$router->post('/session', 'controllers/session/store.php')->only('guest');
+$router->delete('/session', 'controllers/session/destroy.php')->only('auth');

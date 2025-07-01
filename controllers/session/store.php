@@ -22,7 +22,7 @@ if (!Validator::string($password)) {
 }
 
 if (! empty($errors)) {
-    return view('/sessions/create.view.php', [
+    return view('session/create.view.php', [
         'errors' => $errors
     ]);
 }
@@ -61,7 +61,7 @@ $user = $db->query('SELECT * FROM users WHERE email = :email', [
 // // the else statement is little superfluous here i don't need to do it
 // // }
 
-if (! $user) {
+if ($user) {
     // if we found the corresponding user then we do the check
     if (password_verify($password, $user['password'])) {
         login([
@@ -76,7 +76,7 @@ if (! $user) {
 // otherwise there was no user or if there was a user but the password didn't match
 // it gets us around , it allows us to skirt around the issue of us letting the user check if there are certain email addresses in our database.
 
-return view('/sessions/create.view.php', [
+return view('session/create.view.php', [
     'errors' => [
         'email' => 'No matching account found for that email address and password.'
     ]
