@@ -1,5 +1,7 @@
 <?php
 
+use Core\Session;
+
 session_start();
 
 const BASE_PATH = __DIR__.'/../';
@@ -22,4 +24,11 @@ $method = $_POST['_method'] ?? $_SERVER['REQUEST_METHOD'];
 
 $router->route($uri, $method);
 
+// right here we can clear out any _flash session data
+// later we will refactor this and organize it better
+// $_SESSION['_flash'] = [];
+// or
 
+// unset($_SESSION['_flash']);
+
+Session::unflash();

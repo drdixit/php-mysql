@@ -4,11 +4,14 @@
 
 // use Core\App;
 use Core\Authenticator;
+use Core\Session;
 // use Core\Database;
 // use Core\Validator;
 use Http\Forms\LoginForm;
 
 // $db = App::resolve(Database::class);
+
+// var_dump('I have been posted!');
 
 $email = $_POST['email'];
 $password = $_POST['password'];
@@ -26,9 +29,25 @@ if ($form->validate($email, $password)) {
     $form->error('email', 'No matching account found for that email address and password.');
 }
 
-return view('session/create.view.php', [
-    'errors' => $form->errors()
+// $_SESSION['errors'] = $form->errors();
+// we need to expire above thing after one page load
+
+// $_SESSION['_flash']['errors'] = $form->errors();
+
+Session::flash('errors', $form->errors());
+
+// old form data old is really common convention
+// you probably notice this many times there is never a situation where we should manually populate
+// that password input, you always have to reenter it yourself
+Session::flash('old', [
+    'email' => $_POST['email']
 ]);
+
+return redirect('/login');
+
+// return view('session/create.view.php', [
+//     'errors' => $form->errors()
+// ]);
 
 // return view('session/create.view.php', [
 //     'errors' => [

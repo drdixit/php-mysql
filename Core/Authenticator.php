@@ -39,11 +39,13 @@ class Authenticator
 
     public function logout()
     {
-        $_SESSION = []; // clear the session array
-        session_destroy(); // destroy the session on the server
+        // $_SESSION = []; // clear the session array
+        // Session::flush();
+        // session_destroy(); // destroy the session on the server
 
-        $params = session_get_cookie_params(); // to grab the path and domain of the cookie
-        setcookie('PHPSESSID', '', time() - 3600, $params['path'], $params['domain'], $params['secure'], $params['httponly']); // expire the session cookie
+        // $params = session_get_cookie_params(); // to grab the path and domain of the cookie
+        // setcookie('PHPSESSID', '', time() - 3600, $params['path'], $params['domain'], $params['secure'], $params['httponly']); // expire the session cookie
 
+        Session::destroy();
     }
 }
