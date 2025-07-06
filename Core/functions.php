@@ -46,23 +46,30 @@ function view($path, $attributes = [])
     require base_path('views/' . $path);
 }
 
-function login($user)
+// this thing now moved to the Authenticator class
+// function login($user)
+// {
+//     $_SESSION['user'] = [
+//         'email' => $user['email']
+//         // 'name' => $user['name'],
+//     ];
+
+//     // generate a new session ID and true means that the old session data will be deleted
+//     session_regenerate_id(true); // regenerate the session ID to prevent session fixation attacks
+// }
+
+// function logout()
+// {
+//     $_SESSION = []; // clear the session array
+//     session_destroy(); // destroy the session on the server
+
+//     $params = session_get_cookie_params(); // to grab the path and domain of the cookie
+//     setcookie('PHPSESSID', '', time() - 3600, $params['path'], $params['domain'], $params['secure'], $params['httponly']); // expire the session cookie
+
+// }
+
+function redirect($path)
 {
-    $_SESSION['user'] = [
-        'email' => $user['email']
-        // 'name' => $user['name'],
-    ];
-
-    // generate a new session ID and true means that the old session data will be deleted
-    session_regenerate_id(true); // regenerate the session ID to prevent session fixation attacks
-}
-
-function logout()
-{
-    $_SESSION = []; // clear the session array
-    session_destroy(); // destroy the session on the server
-
-    $params = session_get_cookie_params(); // to grab the path and domain of the cookie
-    setcookie('PHPSESSID', '', time() - 3600, $params['path'], $params['domain'], $params['secure'], $params['httponly']); // expire the session cookie
-
+    header("Location: {$path}");
+    exit(); // or die
 }

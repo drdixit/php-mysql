@@ -2,23 +2,64 @@
 
 // log in the user if the credentials match.
 
-use Core\App;
-use Core\Database;
-use Core\Validator;
+// use Core\App;
+use Core\Authenticator;
+// use Core\Database;
+// use Core\Validator;
 use Http\Forms\LoginForm;
 
-$db = App::resolve(Database::class);
+// $db = App::resolve(Database::class);
 
 $email = $_POST['email'];
 $password = $_POST['password'];
 
 $form = new LoginForm();
 
-if (! $form->validate($email, $password)) {
-    return view('session/create.view.php', [
-        'errors' => $form->errors()
-    ]);
+if ($form->validate($email, $password)) {
+    // $auth = new Authenticator();
+    // if you are not passing constructor parameters then you can omit the ()
+    // if ((new Authenticator)->attempt($email, $password)) {
+    if ((new Authenticator())->attempt($email, $password)) {
+        redirect('/');
+    }
+
+    $form->error('email', 'No matching account found for that email address and password.');
 }
+
+return view('session/create.view.php', [
+    'errors' => $form->errors()
+]);
+
+// return view('session/create.view.php', [
+//     'errors' => [
+//         'email' => 'No matching account found for that email address and password.'
+//     ]
+// ]);
+
+
+// both options are right, it's just do it the way that time it feels right.
+// sometimes one options feels right, sometimes the other.
+// do it what feels right at that time.
+// if ($auth->attempt($email, $password)) {
+//     // if the credentials match, we log in the user
+//     // and redirect them to the home page
+//     redirect('/'); // this is a helper function that redirects to the home page
+//     // header('Location: /');
+//     // exit(); // or die
+// } else {
+//     // we don't move this to the Authenticator class is not responsible for rendering views
+//     return view('session/create.view.php', [
+//         'errors' => [
+//             'email' => 'No matching account found for that email address and password.'
+//         ]
+//     ]);
+// }
+// if we redirect we kill the script so there is no need to use else statement
+// this is just a style choice, you can use else if you want
+
+
+
+
 
 // validate the form inputs.
 // $errors = [];
@@ -38,9 +79,9 @@ if (! $form->validate($email, $password)) {
 
 // match the credentials with the database.
 
-$user = $db->query('SELECT * FROM users WHERE email = :email', [
-    'email' => $email
-])->find();
+// $user = $db->query('SELECT * FROM users WHERE email = :email', [
+//     'email' => $email
+// ])->find();
 
 // dd($user);
 
@@ -70,23 +111,22 @@ $user = $db->query('SELECT * FROM users WHERE email = :email', [
 // // the else statement is little superfluous here i don't need to do it
 // // }
 
-if ($user) {
-    // if we found the corresponding user then we do the check
-    if (password_verify($password, $user['password'])) {
-        login([
-            'email' => $email,
-        ]);
+// if ($user) {
+//     // if we found the corresponding user then we do the check
+//     if (password_verify($password, $user['password'])) {
+//         login([
+//             'email' => $email,
+//         ]);
 
-        header('Location: /');
-        exit(); // or die
-    }
-}
+//         header('Location: /');
+//         exit(); // or die
+//     }
+// }
 
 // otherwise there was no user or if there was a user but the password didn't match
 // it gets us around , it allows us to skirt around the issue of us letting the user check if there are certain email addresses in our database.
-
-return view('session/create.view.php', [
-    'errors' => [
-        'email' => 'No matching account found for that email address and password.'
-    ]
-]);
+// return view('session/create.view.php', [
+//     'errors' => [
+//         'email' => 'No matching account found for that email address and password.'
+//     ]
+// ]);
