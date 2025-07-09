@@ -4,7 +4,8 @@
 
 // use Core\App;
 use Core\Authenticator;
-use Core\Session;
+// use Core\Session;
+// use Core\ValidationException;
 // use Core\Database;
 // use Core\Validator;
 use Http\Forms\LoginForm;
@@ -12,38 +13,61 @@ use Http\Forms\LoginForm;
 // $db = App::resolve(Database::class);
 
 // var_dump('I have been posted!');
+// $email = $_POST['email'];
+// $password = $_POST['password'];
 
-$email = $_POST['email'];
-$password = $_POST['password'];
+// tray catch is move to the public/index.php file
+// try {
+$form = LoginForm::validate($attributes = [
+    'email' => $_POST['email'],
+    'password' => $_POST['password']
+]);
+// } catch (ValidationException $exception) {
+// Session::flash('errors', $exception->errors);
+// Session::flash('old', $exception->old);
 
-$form = new LoginForm();
+// return redirect('/login');
+// }
 
-if ($form->validate($email, $password)) {
-    // $auth = new Authenticator();
-    // if you are not passing constructor parameters then you can omit the ()
-    // if ((new Authenticator)->attempt($email, $password)) {
-    if ((new Authenticator())->attempt($email, $password)) {
-        redirect('/');
-    }
+$signedIn = (new Authenticator())
+    ->attempt(
+        $attributes['email'],
+        $attributes['password']
+    );
 
-    $form->error('email', 'No matching account found for that email address and password.');
+if (!$signedIn) {
+    $form->error(
+        'email',
+        'No matching account found for that email address and password.'
+    )->throw();
 }
+
+redirect('/');
+
+// and finally lets reverse it i often like to do my guard clauses before the happy path
+// in this case we are doing the happy path first and then the guard clause
+// if ((new Authenticator())->attempt($attributes['email'], $attributes['password'])) {
+//     redirect('/');
+// }
+
+// $form->error('email', 'No matching account found for that email address and password.')
+//     ->throw();
 
 // $_SESSION['errors'] = $form->errors();
 // we need to expire above thing after one page load
 
 // $_SESSION['_flash']['errors'] = $form->errors();
 
-Session::flash('errors', $form->errors());
+// Session::flash('errors', $form->errors());
 
 // old form data old is really common convention
 // you probably notice this many times there is never a situation where we should manually populate
 // that password input, you always have to reenter it yourself
-Session::flash('old', [
-    'email' => $_POST['email']
-]);
+// Session::flash('old', [
+//     'email' => $_POST['email']
+// ]);
 
-return redirect('/login');
+// return redirect('/login');
 
 // return view('session/create.view.php', [
 //     'errors' => $form->errors()

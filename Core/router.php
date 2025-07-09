@@ -112,6 +112,13 @@ class Router
         $this->abort();
     }
 
+    public function previousUrl()
+    {
+        // option 1 is Router knows previous url
+        // or router can perform a redirect itself
+        return $_SERVER['HTTP_REFERER'];
+    }
+
     protected function abort($code = 404)
     {
         http_response_code($code);
